@@ -2,6 +2,7 @@ import 'package:data_increptor/color/colors.dart';
 import 'package:data_increptor/pages/file_detail_screen.dart';
 import 'package:data_increptor/model/data_model.dart';
 import 'package:data_increptor/provider/file_provider.dart';
+import 'package:data_increptor/widgets/file_list_tile_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
@@ -45,31 +46,8 @@ class _SearchScreenState extends State<SearchScreen> {
               itemCount: _searchResults.length,
               itemBuilder: (context, index) {
                 final file = _searchResults[index];
-                return ListTile(
-                  leading: Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(8),
-                        color: IconDataClass.getFileColor(file.originalType),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(12.0),
-                        child: Icon(
-                          IconDataClass.getFileIcon(file.originalType),
-                          size: 20,
-                          color: Colors.white,
-                        ),
-                      )),
-                  title: Text(file.originalName.split(".")[0].length <= 12
-                      ? file.originalName
-                      : "${file.originalName.split(".")[0].substring(0, 12)}...${file.originalName.split(".")[1]}"),
-                  subtitle: Text(
-                      '${(file.size / 1024 / 1024).toStringAsFixed(2)} MB'),
-                  trailing: const Icon(Icons.more_vert),
-                  onTap: () {
-                    Get.to(() => FileDetailsScreen(
-                          file: file,
-                        ));
-                  },
+                return ItemListTileWidget(
+                  file: file,
                 );
               },
             ),
