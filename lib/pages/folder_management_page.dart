@@ -122,7 +122,7 @@ class _FolderManagementPageState extends State<FolderManagementPage> {
   Widget _buildFileItem(EncryptedFile file, BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Get.to(()=> FileDetailsScreen(file: file));
+        Get.to(() => FileDetailsScreen(file: file));
       },
       onLongPress: () {
         _showFileOptionsMenu(context, file);
