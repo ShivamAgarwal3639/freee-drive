@@ -9,6 +9,8 @@ class EncryptedFile {
   final DateTime dateEncrypted;
   DateTime lastAccessed;
   String folderPath;
+  String encryptionFormat;
+  List<int> chunkSizes;
 
   EncryptedFile({
     required this.id,
@@ -19,6 +21,8 @@ class EncryptedFile {
     required this.dateEncrypted,
     required this.lastAccessed,
     required this.folderPath,
+    required this.encryptionFormat,
+    required this.chunkSizes,
   });
 
   Map<String, dynamic> toJson() => {
@@ -30,6 +34,8 @@ class EncryptedFile {
     'dateEncrypted': dateEncrypted.toIso8601String(),
     'lastAccessed': lastAccessed.toIso8601String(),
     'folderPath': folderPath,
+    'encryptionFormat': encryptionFormat,
+    'chunkSizes': chunkSizes,
   };
 
   factory EncryptedFile.fromJson(Map<String, dynamic> json) => EncryptedFile(
@@ -41,6 +47,8 @@ class EncryptedFile {
     dateEncrypted: DateTime.parse(json['dateEncrypted']),
     lastAccessed: DateTime.parse(json['lastAccessed']),
     folderPath: json['folderPath'],
+    encryptionFormat: json['encryptionFormat'],
+    chunkSizes: List<int>.from(json['chunkSizes']),
   );
 }
 

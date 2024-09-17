@@ -56,7 +56,7 @@ class RecentFiles extends StatelessWidget {
             'Recent Files',
             style: TextStyle(
               fontSize: 20,
-              fontWeight: FontWeight.bold,
+              fontWeight: FontWeight.w600,
               color: ColorsMaterial.allColour,
             ),
           ),

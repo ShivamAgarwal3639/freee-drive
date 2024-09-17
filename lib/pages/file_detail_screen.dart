@@ -3,6 +3,7 @@ import 'package:data_increptor/model/data_model.dart';
 import 'package:data_increptor/provider/file_provider.dart';
 import 'package:data_increptor/services/encryption_service.dart';
 import 'package:provider/provider.dart';
+import 'package:share_plus/share_plus.dart';
 
 class FileDetailsScreen extends StatelessWidget {
   final EncryptedFile file;
@@ -41,7 +42,6 @@ class FileDetailsScreen extends StatelessWidget {
       ),
     );
   }
-
   Widget _buildFileIcon() {
     IconData iconData;
     Color iconColor;
@@ -98,9 +98,18 @@ class FileDetailsScreen extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         ElevatedButton.icon(
-          icon: const Icon(Icons.share),
+          icon: const Icon(Icons.lock_open),
           label: const Text('Decrypt and Share'),
           onPressed: () => _decryptAndShare(context),
+          style: ElevatedButton.styleFrom(
+            padding: const EdgeInsets.symmetric(vertical: 12),
+          ),
+        ),
+        const SizedBox(height: 10),
+        ElevatedButton.icon(
+          icon: const Icon(Icons.share),
+          label: const Text('Share Encrypted File'),
+          onPressed: () => _shareEncryptedFile(context),
           style: ElevatedButton.styleFrom(
             padding: const EdgeInsets.symmetric(vertical: 12),
           ),
@@ -117,6 +126,23 @@ class FileDetailsScreen extends StatelessWidget {
         ),
       ],
     );
+  }
+
+  void _shareEncryptedFile(BuildContext context) async {
+    FileEncryptionService.showLoadingOverlay(context, 'Preparing encrypted file for sharing...');
+    try {
+      List<XFile> encryptedFilePaths = await FileEncryptionService.getEncryptedFilePaths(file);
+      await Share.shareXFiles(
+        encryptedFilePaths,
+        text: 'Sharing encrypted file: ${file.originalName}',
+      );
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error sharing encrypted file: ${e.toString()}')),
+      );
+    } finally {
+      FileEncryptionService.hideLoadingOverlay(context);
+    }
   }
 
   String _formatDate(DateTime date) {
