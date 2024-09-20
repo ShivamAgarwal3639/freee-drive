@@ -118,7 +118,7 @@ class FileEncryptionService {
       id: Uuid().v4(),
       originalName: file.path.split('/').last,
       encryptedName:
-          encryptedFilePaths.map((path) => path.split('/').last).join(','),
+      encryptedFilePaths.map((path) => path.split('/').last).join(','),
       originalType: lookupMimeType(file.path) ?? 'application/octet-stream',
       size: fileSize,
       dateEncrypted: DateTime.now(),
@@ -202,7 +202,7 @@ class FileEncryptionService {
       }
 
       Uint8List fullDecryptedData =
-          Uint8List.fromList(decryptedChunks.expand((chunk) => chunk).toList());
+      Uint8List.fromList(decryptedChunks.expand((chunk) => chunk).toList());
 
       String decryptedFilePath =
           '${(await getTemporaryDirectory()).path}/${encryptedFile.originalName}';
